@@ -1,13 +1,11 @@
 #include <iostream>
 
 using namespace std;
-int power(int n, int pow)
-{
-    if (pow == 0)
-    {
-        return 1;
-    }
-    return n * power(n, pow - 1);
+int power(int n, int pow) {
+  if (pow == 0) {
+    return 1;
+  }
+  return n * power(n, pow - 1);
 }
 
 // int recursiveMultS(int a, int b)
@@ -42,53 +40,44 @@ int power(int n, int pow)
 //     int b1 = b / modB;
 //     int b0 = b % modB;
 
-//     int result = modA * modB * recursiveMult(a1, b1) + modA * recursiveMult(a1, b0) + modB * recursiveMult(b1, a0) + recursiveMult(a0, b0);
-//     return result;
+//     int result = modA * modB * recursiveMult(a1, b1) + modA *
+//     recursiveMult(a1, b0) + modB * recursiveMult(b1, a0) + recursiveMult(a0,
+//     b0); return result;
 // }
 
-int recursiveMult(int a, int b)
-{
-    if (a / 10 == 0 && b / 10 == 0)
-    {
-        return a * b;
-    }
-    int max = a;
-    if (a < b)
-    {
-        max = b;
-    }
+int recursiveMult(int a, int b) {
+  if (a / 10 == 0 && b / 10 == 0) {
+    return a * b;
+  }
+  int max = a;
+  if (a < b) {
+    max = b;
+  }
 
-    int digits = 0;
-    while (max > 0)
-    {
-        digits++;
-        max /= 10;
-    }
+  int digits = 0;
+  while (max > 0) {
+    digits++;
+    max /= 10;
+  }
 
-    int mid = digits / 2;
-    int mod = power(10, mid);
+  int mid = digits / 2;
+  int mod = power(10, mid);
 
-    int a1 = a / mod;
-    int a0 = a % mod;
+  int a1 = a / mod;
+  int a0 = a % mod;
 
-    int b1 = b / mod;
-    int b0 = b % mod;
+  int b1 = b / mod;
+  int b0 = b % mod;
 
-    int result = mod * mod * recursiveMult(a1, b1) + mod * recursiveMult(a1, b0) + mod * recursiveMult(b1, a0) + recursiveMult(a0, b0);
-    return result;
+  int result = mod * mod * recursiveMult(a1, b1) + mod * recursiveMult(a1, b0) +
+               mod * recursiveMult(b1, a0) + recursiveMult(a0, b0);
+  return result;
 }
 
-int Karatsuba(int a, int b)
-{
-
-    if (a / 100 == 0 && b / 10 == 0)
-    {
-        return a * b;
-    }
+int Karatsuba(int a, int b) {
+  if (a / 100 == 0 && b / 10 == 0) {
+    return a * b;
+  }
 }
 
-int main(void)
-{
-
-    cout << recursiveMult(1000000, 1000000) << endl;
-}
+int main(void) { cout << recursiveMult(1000000, 1000000) << endl; }
