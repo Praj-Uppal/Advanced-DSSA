@@ -6,22 +6,26 @@
 
 using namespace std;
 
-int addition(int a, int b, int base) {
+int addition(int a, int b, int base)
+{
   int result = 0, carry = 0, pos = 1;
 
-  while (a > 0 || b > 0) {
+  while (a > 0 || b > 0)
+  {
     int digita, digitb, digitres;
     digita = a % 10;
     digitb = b % 10;
     digitres = digita + digitb + carry;
     carry = 0;
-    if (digitres >= base) {
+    if (digitres >= base)
+    {
       carry = 1;
       digitres = digitres % base;
     }
 
     int posCopy = pos;
-    while (posCopy > 1) {
+    while (posCopy > 1)
+    {
       digitres *= 10;
       posCopy--;
     }
@@ -31,8 +35,10 @@ int addition(int a, int b, int base) {
     pos++;
   }
 
-  if (carry == 1) {
-    while (pos > 1) {
+  if (carry == 1)
+  {
+    while (pos > 1)
+    {
       carry *= 10;
       pos--;
     }
@@ -42,13 +48,15 @@ int addition(int a, int b, int base) {
   return result;
 }
 
-vector<int> additionVec(vector<int> a, vector<int> b, int base) {
+vector<int> additionVec(vector<int> a, vector<int> b, int base)
+{
   // Define carry var and result vector
   int carry = 0;
   vector<int> result;
 
   // Iterates while both vectors have integers
-  while (~a.empty() && ~b.empty()) {
+  while (~a.empty() && ~b.empty())
+  {
     int digitA, digitB, digitRes;
 
     // Take LSD of both vectors
@@ -58,7 +66,8 @@ vector<int> additionVec(vector<int> a, vector<int> b, int base) {
     digitRes = digitA + digitB + carry;
     carry = 0;
     // Account for carry
-    if (digitRes >= base) {
+    if (digitRes >= base)
+    {
       digitRes %= base;
       carry = 1;
     }
@@ -71,10 +80,12 @@ vector<int> additionVec(vector<int> a, vector<int> b, int base) {
 
   // If a was not empty, b must be empty.
   // fill result with remaining a digits, making note of carry
-  while (~a.empty()) {
+  while (~a.empty())
+  {
     int digitA = a.back();
     int digitRes = digitA + carry;
-    if (digitRes >= base) {
+    if (digitRes >= base)
+    {
       digitRes %= base;
       carry = 1;
     }
@@ -83,10 +94,12 @@ vector<int> additionVec(vector<int> a, vector<int> b, int base) {
   }
   // If a was empty, fill result with remaining B digits, making note of
   // carry
-  while (~b.empty()) {
+  while (~b.empty())
+  {
     int digitB = b.back();
     int digitRes = digitB + carry;
-    if (digitRes >= base) {
+    if (digitRes >= base)
+    {
       digitRes %= base;
       carry = 1;
     }
@@ -96,7 +109,8 @@ vector<int> additionVec(vector<int> a, vector<int> b, int base) {
   }
 
   // Account for carry at the end
-  if (carry == 1) {
+  if (carry == 1)
+  {
     result.push_back(1);
   }
 
@@ -105,15 +119,50 @@ vector<int> additionVec(vector<int> a, vector<int> b, int base) {
   return result;
 }
 
-vector<int> Karatsuba(vector<int> a, vector<int> b, int base) {
+vector<int> Karatsuba(vector<int> a, vector<int> b, int base)
+{
   vector<int> result;
-  if (a.size() <= 1 && b.size() <= 1) {
-    result.push_back(a.front() * b.front());
+  vector<int> prod1, prod2, prod3;
+  int mid = max(a.size(), b.size()) / 2;
+
+  if (a.size() <= 1 && b.size() <= 1)
+  {
+    int res = a.front() * b.front();
+    result.push_back(res / base);
+    result.push_back(res % base);
     return result;
   }
 
-  if (a.size() <= 1) {
+  if (a.size() <= mid)
+  {
+    vector<int> b0(b.begin(), b.begin() + mid);
+    vector<int> b1(b.begin() + mid + 1, b.end());
+    prod1 = Karatsuba(b0, a, base);
+    prod2 = Karatsuba(b1, a, base);
+    prod1.insert(prod1.end(), mid, 0);
+    result = additionVec(prod1, prod2, base);
+    return result;
+  }
+  else if (b.size() <= mid)
+  {
+    vector<int> a0(a.begin(), a.begin() + mid);
+    vector<int> a1(a.begin() + mid + 1, a.end());
+    prod1 = Karatsuba(a0, b, base);
+    prod2 = Karatsuba(a1, b, base);
+    prod1.insert(prod1.end(), mid, 0);
+    result = additionVec(prod1, prod2, base);
+    return result;
+  }
+  else
+  {
+    vector<int> a0(a.begin(), a.begin() + mid);
+    vector<int> a1(a.begin() + mid + 1, a.end());
+    vector<int> b0(b.begin(), b.begin() + mid);
+    vector<int> b1(b.begin() + mid + 1, b.end());
+    prod1 = Karatsuba(a0, b0, base);
+    prod2 = Karatsuba(a1, b1, base);
+    prod3 = Karatsuba(additionVec(a1, a0, base), additionVec(b1, b0, base), base);
   }
 }
 
-int main(void) { cout < < < < endl; }
+int main(void) {}
