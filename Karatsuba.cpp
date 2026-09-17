@@ -1,8 +1,10 @@
 #include <iostream>
 
 using namespace std;
-int power(int n, int pow) {
-  if (pow == 0) {
+int power(int n, int pow)
+{
+  if (pow == 0)
+  {
     return 1;
   }
   return n * power(n, pow - 1);
@@ -45,17 +47,21 @@ int power(int n, int pow) {
 //     b0); return result;
 // }
 
-int recursiveMult(int a, int b) {
-  if (a / 10 == 0 && b / 10 == 0) {
+int recursiveMult(int a, int b)
+{
+  if (a / 10 == 0 && b / 10 == 0)
+  {
     return a * b;
   }
   int max = a;
-  if (a < b) {
+  if (a < b)
+  {
     max = b;
   }
 
   int digits = 0;
-  while (max > 0) {
+  while (max > 0)
+  {
     digits++;
     max /= 10;
   }
@@ -74,8 +80,10 @@ int recursiveMult(int a, int b) {
   return result;
 }
 
-int Karatsuba(int a, int b) {
-  if (a / 100 == 0 && b / 10 == 0) {
+int Karatsuba(int a, int b)
+{
+  if (a / 100 == 0 && b / 10 == 0)
+  {
     return a * b;
   }
 }
